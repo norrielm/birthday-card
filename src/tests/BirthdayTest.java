@@ -146,7 +146,7 @@ public class BirthdayTest extends AndroidTestCase {
 		today.set(Calendar.YEAR, thisYear);
 		today.add(Calendar.DATE, addDays);
 		boolean result = birthday.canOpenEnvelope(today, extraDaysAllowed);
-		if (DEBUG) Log.d(TAG, "Expect true, returned " + result
+		if (DEBUG) Log.d(TAG, "Expect " + expected + ", returned " + result
 				+ " Today: " + today.get(Calendar.DATE) + "/" + (today.get(Calendar.MONTH)+1) + "/" + today.get(Calendar.YEAR)
 				+ " Birthday: " + birthday.getDay() + "/" + (birthday.getMonth()+1) + "/" + birthday.getYear());
 		assertTrue(result == expected);
@@ -198,14 +198,14 @@ public class BirthdayTest extends AndroidTestCase {
 		} catch (InvalidAllowanceException e) {
 			// Pass
 		}
-		try {
-			if (allowance > 0) {
+		if (allowance > 0) {
+			try {
 				// Today is the day before the allowance
 				openEnvelopeTest(birthDay, allowance - 1, birthMonth, thisYear, allowance, true);
 				fail("Passed on invalid allowance");
+			} catch (InvalidAllowanceException e) {
+				// Pass
 			}
-		} catch (InvalidAllowanceException e) {
-			// Pass
 		}
 	}
 }
